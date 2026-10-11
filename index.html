@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="theme-color" content="#FF8FAB" />
+  <title>Lily 英语外教 · 数字人老师</title>
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" href="./icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="./css/app.css" />
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js/+esm",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/",
+      "talkinghead": "https://cdn.jsdelivr.net/gh/met4citizen/TalkingHead@1.7/modules/talkinghead.mjs"
+    }
+  }
+  </script>
+</head>
+<body>
+  <div id="app">
+    <div class="topbar">
+      <div class="brand">👩‍🏫 Lily 英语外教</div>
+      <div class="badge" id="progressBadge">学会 0 个词</div>
+    </div>
+
+    <div class="stage" aria-label="数字人老师 Lily">
+      <div id="avatar"></div>
+      <div id="avatarLoading">正在召唤 Lily 老师…</div>
+      <div id="subtitle"></div>
+    </div>
+
+    <div class="panel">
+      <!-- HOME -->
+      <section class="screen active" id="screenHome">
+        <p class="hint">点下面的大图标，Lily 会慢慢教宝宝一个英文单词。没有对错，只有鼓励～</p>
+        <div class="section-title">今天学什么？</div>
+        <div class="grid" id="categoryGrid"></div>
+      </section>
+
+      <!-- LEARN -->
+      <section class="screen" id="screenLearn">
+        <div class="section-title">
+          <span id="learnTitle">单词</span>
+          <button class="back-btn" id="btnBackLearn" type="button">← 返回</button>
+        </div>
+        <div class="grid" id="wordGrid"></div>
+        <div id="repeatBar">
+          <button id="btnHearAgain" type="button">🔊 再听一遍</button>
+          <button id="btnRepeat" type="button">🎤 跟 Lily 说</button>
+        </div>
+      </section>
+
+      <!-- FIND -->
+      <section class="screen" id="screenFind">
+        <div id="findPrompt">找一找</div>
+        <p class="hint">点对了会夸宝宝；点错了也会温柔引导，没有失败。</p>
+        <div class="grid" id="findOptions"></div>
+      </section>
+
+      <!-- CAMERA -->
+      <section class="screen" id="screenCamera">
+        <p class="hint">对准家里的苹果、香蕉、小猫玩具、书、球、小汽车… Lily 认出后会教英文。</p>
+        <div id="camWrap">
+          <video id="camVideo" playsinline muted autoplay></video>
+        </div>
+        <div id="camStatus">准备摄像头…</div>
+      </section>
+    </div>
+
+    <nav class="nav" aria-label="主导航">
+      <button type="button" id="btnHome"><span class="ico">🏠</span>首页</button>
+      <button type="button" id="btnLearn"><span class="ico">📚</span>学词</button>
+      <button type="button" id="btnFind"><span class="ico">🔎</span>找一找</button>
+      <button type="button" id="btnCamera"><span class="ico">📷</span>认东西</button>
+    </nav>
+  </div>
+
+  <div id="gate">
+    <div>
+      <div class="lily-face">🧑‍🏫</div>
+      <h1>Lily 数字外教</h1>
+      <p>真人 3D 老师陪两岁半宝宝学英语<br/>点开始后会说话、动嘴巴、鼓励宝宝</p>
+      <button id="gateBtn" type="button">点这里开始</button>
+    </div>
+  </div>
+
+  <div class="modal" id="restModal">
+    <div class="box">
+      <div style="font-size:2.5rem">💤</div>
+      <h2 style="margin:8px 0">休息一下吧</h2>
+      <p style="color:#7a5c5e;line-height:1.5">宝宝已经学了大约 5 分钟。幼教建议：休息眼睛和耳朵，喝口水再继续。</p>
+      <button id="restOk" type="button">好的</button>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
