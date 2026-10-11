@@ -1,4 +1,4 @@
-const CACHE = 'lily-tutor-v2';
+const CACHE = 'lily-tutor-v3';
 const ASSETS = [
   './',
   './index.html',
