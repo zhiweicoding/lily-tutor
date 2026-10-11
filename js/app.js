@@ -1,6 +1,7 @@
 import { CATEGORIES, PRAISE_ZH, GREET_ZH, REST_ZH, loadProgress, markWordLearned, findWordByEn } from './vocab.js';
 import { unlockAudio, speak, teachWord, stopSpeaking, isUnlocked } from './tts.js';
 import { initAvatar, getHead, praiseGesture, waveGesture, listenPose, pauseAvatar } from './avatar.js';
+import { initChat } from './chat.js';
 import { loadDetector, startCamera, stopCamera, startDetectLoop } from './camera.js';
 
 const $ = (s) => document.querySelector(s);
@@ -41,7 +42,7 @@ function setNavActive(id) {
 
 function showScreen(id) {
   $$('.screen').forEach((s) => s.classList.toggle('active', s.id === id));
-  const map = { screenHome: 'btnHome', screenLearn: 'btnLearn', screenFind: 'btnFind', screenCamera: 'btnCamera' };
+  const map = { screenHome: 'btnHome', screenLearn: 'btnLearn', screenFind: 'btnFind', screenCamera: 'btnCamera', screenChat: 'btnChat' };
   if (map[id]) setNavActive(map[id]);
 }
 
@@ -179,14 +180,12 @@ function setupSpeechRec() {
     markWordLearned(state.word?.en || 'try');
     updateProgressUI();
     const hit = target && said.includes(target);
-    await speak({
-      text: hit ? `Yes! ${state.word.en}! ${randomPraise()}` : `${randomPraise()} 再跟 Lily 说一次：${state.word?.en || ''}`,
-      lang: hit ? 'en' : 'zh',
-      head,
-      rate: hit ? 0.8 : 0.95
-    });
     if (hit) {
-      await speak({ text: state.word.en, lang: 'en', head, rate: 0.7 });
+      await speak({ text: `Yes! ${state.word.en}!`, lang: 'en', head });
+      await speak({ text: randomPraise(), lang: 'zh', head });
+    } else {
+      await speak({ text: `${randomPraise()}再跟 Lily 说一次。`, lang: 'zh', head });
+      await speak({ text: state.word.en, lang: 'en', head });
     }
   };
   recognition.onerror = () => {
@@ -194,7 +193,7 @@ function setupSpeechRec() {
     $('#btnRepeat').classList.remove('listening');
     // still praise attempt
     const head = getHead();
-    speak({ text: randomPraise() + ' 再试一次哦。', lang: 'zh', head });
+    speak({ text: '宝宝真棒！再试一次哦。', lang: 'zh', head });
     praiseGesture();
   };
   recognition.onend = () => {
@@ -253,7 +252,8 @@ function renderFindGame() {
       await speak({ text: `Yes! ${target.en}!`, lang: 'en', head, rate: 0.75 });
       await speak({ text: randomPraise(), lang: 'zh', head });
     } else {
-      await speak({ text: `这是 ${findWordByEn(pick)?.zh || pick}。我们一起找 ${target.en}。`, lang: 'zh', head });
+      await speak({ text: `这是${findWordByEn(pick)?.zh || pick}。`, lang: 'zh', head });
+      await speak({ text: '我们再找一找。', lang: 'zh', head });
       await speak({ text: target.en, lang: 'en', head, rate: 0.65 });
     }
     state.busy = false;
@@ -314,6 +314,7 @@ function wireNav() {
     renderFindGame();
   };
   $('#btnCamera').onclick = () => openCamera();
+  $('#btnChat').onclick = () => { stopCamera($('#camVideo')); showScreen('screenChat'); };
   $('#btnBackLearn').onclick = () => {
     showScreen('screenHome');
     $('#repeatBar').classList.remove('show');
@@ -339,6 +340,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderCategories();
   setupSpeechRec();
   wireNav();
+  initChat({ getHead, speak, praiseGesture, listenPose, toast });
   updateProgressUI();
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js').catch(() => {});
