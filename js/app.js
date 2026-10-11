@@ -32,8 +32,17 @@ function updateProgressUI() {
   $('#progressBadge').textContent = `学会 ${n} 个词`;
 }
 
+
+function setNavActive(id) {
+  $$('.nav button').forEach((b) => b.classList.remove('active'));
+  const el = document.getElementById(id);
+  if (el) el.classList.add('active');
+}
+
 function showScreen(id) {
   $$('.screen').forEach((s) => s.classList.toggle('active', s.id === id));
+  const map = { screenHome: 'btnHome', screenLearn: 'btnLearn', screenFind: 'btnFind', screenCamera: 'btnCamera' };
+  if (map[id]) setNavActive(map[id]);
 }
 
 function randomPraise() {
@@ -111,7 +120,7 @@ function renderWordGrid(cat) {
   const box = $('#wordGrid');
   box.innerHTML = cat.words
     .map((w) => {
-      const bg = w.color ? `style="--card:${w.color}"` : '';
+      const bg = w.color ? `style="--card-accent:${w.color}"` : '';
       return `<button class="word-card" data-en="${w.en}" ${bg}>
         <span class="emoji">${w.emoji}</span>
         <span class="en">${w.en}</span>
