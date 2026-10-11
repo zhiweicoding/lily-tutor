@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="theme-color" content="#FF8FAB" />
+  <meta name="theme-color" content="#0E1B3D" />
   <title>Lily 英语外教 · 数字人老师</title>
   <link rel="manifest" href="./manifest.json" />
   <link rel="icon" href="./icons/icon-192.png" />
@@ -66,12 +66,19 @@
         </div>
         <div id="camStatus">准备摄像头…</div>
       </section>
+      <section class="screen" id="screenChat">
+        <p class="hint">按住大按钮，宝宝说中文或英文都可以，Lily 老师会听懂并回答，还会教一个新单词。</p>
+        <div id="chatLog"></div>
+        <button id="btnTalk" type="button"><span class="ico">🎤</span><span id="talkLabel">跟老师说话</span></button>
+        <div id="chatStatus"></div>
+      </section>
     </div>
 
     <nav class="nav" aria-label="主导航">
       <button type="button" id="btnHome"><span class="ico">🏠</span>首页</button>
       <button type="button" id="btnLearn"><span class="ico">📚</span>学词</button>
       <button type="button" id="btnFind"><span class="ico">🔎</span>找一找</button>
+      <button type="button" id="btnChat"><span class="ico">💬</span>聊天</button>
       <button type="button" id="btnCamera"><span class="ico">📷</span>认东西</button>
     </nav>
   </div>
@@ -80,7 +87,7 @@
     <div class="card">
       <div class="lily-face">🧑‍🏫</div>
       <h1>Lily 数字外教</h1>
-      <p>3D 老师陪两岁半宝宝学英语<br/>会说话、对口型、温柔鼓励</p>
+      <p>真人声音 · 口型跟着声音动<br/>还能听懂宝宝说话，AI 回答</p>
       <button id="gateBtn" type="button">点这里开始</button>
     </div>
   </div>
@@ -95,6 +102,7 @@
   </div>
 
   <div id="toast"></div>
+  <script src="./config.js"></script>
   <script type="module" src="./js/app.js"></script>
 </body>
 </html>
