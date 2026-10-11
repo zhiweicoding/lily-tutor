@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="theme-color" content="#FF8FAB" />
   <title>Lily 英语外教 · 数字人老师</title>
   <link rel="manifest" href="./manifest.json" />
@@ -24,25 +24,23 @@
 <body>
   <div id="app">
     <div class="topbar">
-      <div class="brand">👩‍🏫 Lily 英语外教</div>
+      <div class="brand"><span class="dot"></span> Lily 英语外教</div>
       <div class="badge" id="progressBadge">学会 0 个词</div>
     </div>
 
     <div class="stage" aria-label="数字人老师 Lily">
       <div id="avatar"></div>
-      <div id="avatarLoading">正在召唤 Lily 老师…</div>
+      <div id="avatarLoading"><div class="spin"></div>正在召唤 Lily 老师…</div>
       <div id="subtitle"></div>
     </div>
 
     <div class="panel">
-      <!-- HOME -->
       <section class="screen active" id="screenHome">
-        <p class="hint">点下面的大图标，Lily 会慢慢教宝宝一个英文单词。没有对错，只有鼓励～</p>
+        <p class="hint">点大图标，Lily 会慢慢教宝宝一个英文单词。没有对错，只有鼓励～</p>
         <div class="section-title">今天学什么？</div>
         <div class="grid" id="categoryGrid"></div>
       </section>
 
-      <!-- LEARN -->
       <section class="screen" id="screenLearn">
         <div class="section-title">
           <span id="learnTitle">单词</span>
@@ -55,14 +53,12 @@
         </div>
       </section>
 
-      <!-- FIND -->
       <section class="screen" id="screenFind">
         <div id="findPrompt">找一找</div>
         <p class="hint">点对了会夸宝宝；点错了也会温柔引导，没有失败。</p>
         <div class="grid" id="findOptions"></div>
       </section>
 
-      <!-- CAMERA -->
       <section class="screen" id="screenCamera">
         <p class="hint">对准家里的苹果、香蕉、小猫玩具、书、球、小汽车… Lily 认出后会教英文。</p>
         <div id="camWrap">
@@ -81,10 +77,10 @@
   </div>
 
   <div id="gate">
-    <div>
+    <div class="card">
       <div class="lily-face">🧑‍🏫</div>
       <h1>Lily 数字外教</h1>
-      <p>真人 3D 老师陪两岁半宝宝学英语<br/>点开始后会说话、动嘴巴、鼓励宝宝</p>
+      <p>3D 老师陪两岁半宝宝学英语<br/>会说话、对口型、温柔鼓励</p>
       <button id="gateBtn" type="button">点这里开始</button>
     </div>
   </div>
@@ -93,7 +89,7 @@
     <div class="box">
       <div style="font-size:2.5rem">💤</div>
       <h2 style="margin:8px 0">休息一下吧</h2>
-      <p style="color:#7a5c5e;line-height:1.5">宝宝已经学了大约 5 分钟。幼教建议：休息眼睛和耳朵，喝口水再继续。</p>
+      <p style="color:#8a6e70;line-height:1.5">宝宝已经学了大约 5 分钟。幼教建议：休息眼睛和耳朵，喝口水再继续。</p>
       <button id="restOk" type="button">好的</button>
     </div>
   </div>
