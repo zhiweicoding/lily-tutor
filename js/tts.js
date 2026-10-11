@@ -37,9 +37,10 @@ function pickVoices() {
     voices.find((v) => /^en/i.test(v.lang)) ||
     null;
   preferredZh =
-    voices.find((v) => /zh-CN|zh_CN|cmn/i.test(v.lang) && /female|tingting|xiaoxiao|yaoyao/i.test(v.name)) ||
-    voices.find((v) => /zh-CN|zh_CN/i.test(v.lang)) ||
-    voices.find((v) => /^zh/i.test(v.lang)) ||
+    // Mandarin only (普通话): never Cantonese (zh-HK / yue) voices
+    voices.find((v) => /zh-CN|zh_CN|cmn/i.test(v.lang) && /female|tingting|xiaoxiao|yaoyao|huihui|lili|mandarin|普通话/i.test(v.name)) ||
+    voices.find((v) => /zh-CN|zh_CN|cmn-Hans/i.test(v.lang) && !/yue|canton|粤|hong ?kong|sinji/i.test(v.name)) ||
+    voices.find((v) => /zh-TW|zh_TW|cmn-Hant/i.test(v.lang) && !/yue|canton|粤|hong ?kong|sinji/i.test(v.name)) ||
     null;
 }
 
