@@ -1,4 +1,4 @@
-const CACHE = 'lily-tutor-v4';
+const CACHE = 'lily-tutor-v6';
 const ASSETS = [
   './',
   './index.html',
@@ -8,6 +8,8 @@ const ASSETS = [
   './js/tts.js',
   './js/vocab.js',
   './js/camera.js',
+  './js/chat.js',
+  './config.js',
   './manifest.json',
   './icons/icon-192.png',
   './icons/icon-512.png',
@@ -29,6 +31,15 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
   if (url.origin !== location.origin) return;
+  if (url.pathname.includes('/api/')) return;
+  e.respondWith(
+    fetch(e.request).then((res) => {
+        const copy = res.clone();
+        caches.open(CACHE).then((c) => c.put(e.request, copy));
+        return res;
+      }).catch(() => caches.match(e.request))
+  );
+  return;
   e.respondWith(
     caches.match(e.request).then((cached) =>
       cached ||
