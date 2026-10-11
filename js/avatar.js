@@ -1,11 +1,8 @@
 /**
- * TalkingHead.js + Ready Player Me realistic female teacher avatar.
- * CDN-only, no paid API required for avatar rendering / idle animation.
+ * TalkingHead.js + Ready Player Me — polished classroom stage.
  */
 import { TalkingHead } from 'talkinghead';
 
-// Local vendored Ready Player Me brunette (TalkingHead example, CC BY-NC).
-// RPM CDN is often blocked in CN; keep remote fallbacks for other hosts.
 export const AVATAR_URL = './avatars/brunette.glb';
 export const AVATAR_URL_FALLBACKS = [
   './avatars/brunette.glb',
@@ -20,25 +17,34 @@ export function getHead() {
 }
 
 export async function initAvatar(container, onProgress) {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
   head = new TalkingHead(container, {
     lipsyncModules: ['en'],
     lipsyncLang: 'en',
     cameraView: 'upper',
-    cameraDistance: -0.15,
-    cameraY: 0.02,
-    modelFPS: 24,
-    modelPixelRatio: Math.min(window.devicePixelRatio || 1, 1.5),
+    cameraDistance: 0,
+    cameraY: -0.02,
+    cameraX: 0,
+    modelFPS: 30,
+    modelPixelRatio: dpr,
     cameraRotateEnable: false,
     cameraPanEnable: false,
     cameraZoomEnable: false,
-    lightAmbientIntensity: 2.2,
-    lightDirectIntensity: 22,
-    lightSpotIntensity: 8,
+    lightAmbientColor: 0xfff4ea,
+    lightAmbientIntensity: 2.8,
+    lightDirectColor: 0xffe8d6,
+    lightDirectIntensity: 18,
+    lightDirectPhi: 0.55,
+    lightDirectTheta: 0.35,
+    lightSpotColor: 0xcde7ff,
+    lightSpotIntensity: 12,
+    lightSpotPhi: 0.9,
+    lightSpotTheta: -0.55,
     avatarMood: 'happy',
-    avatarIdleEyeContact: 0.45,
-    avatarIdleHeadMove: 0.55,
-    avatarSpeakingEyeContact: 0.7,
-    avatarSpeakingHeadMove: 0.45
+    avatarIdleEyeContact: 0.55,
+    avatarIdleHeadMove: 0.7,
+    avatarSpeakingEyeContact: 0.8,
+    avatarSpeakingHeadMove: 0.5
   });
 
   let loaded = false;
@@ -68,6 +74,9 @@ export async function initAvatar(container, onProgress) {
   if (!loaded) throw lastErr || new Error('Avatar load failed');
 
   head.setMood('happy');
+  try {
+    head.setFixedValue && head.setFixedValue('mouthSmile', 0.22);
+  } catch (_) {}
   return head;
 }
 
@@ -98,4 +107,13 @@ export function pauseAvatar(paused) {
   if (!head) return;
   if (paused) head.stop();
   else head.start();
+}
+
+export function clearMouth(h = head) {
+  if (!h || !h.setFixedValue) return;
+  try {
+    h.setFixedValue('jawOpen', null);
+    h.setFixedValue('mouthOpen', null);
+    h.setFixedValue('mouthSmile', 0.18);
+  } catch (_) {}
 }
